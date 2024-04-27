@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { NgFor, NgClass, NgIf, AsyncPipe } from '@angular/common';
 import { EMPTY, catchError } from 'rxjs';
 import { VehicleService } from '../vehicle.service';
@@ -7,31 +7,27 @@ import { VehicleService } from '../vehicle.service';
   selector: 'sw-vehicle-list',
   standalone: true,
   imports: [AsyncPipe, NgClass, NgFor, NgIf],
-  templateUrl: './vehicle-list.component.html'
+  templateUrl: './vehicle-list.component.html',
 })
 export class VehicleListComponent {
   pageTitle = 'Vehicles';
   errorMessage = '';
   vehicleService = inject(VehicleService);
- 
-  // Vehicles
-  vehicles$ = this.vehicleService.vehicles$
-    .pipe(
-      catchError(err => {
-        this.errorMessage = err;
-        return EMPTY;
-      }));
 
-  selectedVehicle$ = this.vehicleService.selectedVehicle$.pipe(
-    catchError(err => {
-      this.errorMessage = err;
-      return EMPTY;
-    })
-  );
+  // handling errors in signals with try and catch
+  vehicles = computed(() => {
+    try {
+      return this.vehicleService.vehicles();
+    } catch (error) {
+      this.errorMessage =
+        typeof error === 'string' ? error : 'An error occurred';
+      return [];
+    }
+  });
 
-  // When a vehicle is selected, emit the selected vehicle name
+  selectedVehicle = this.vehicleService.selectedVehicle;
+
   onSelected(vehicleName: string): void {
     this.vehicleService.vehicleSelected(vehicleName);
   }
-
 }

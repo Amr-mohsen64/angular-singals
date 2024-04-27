@@ -1,7 +1,7 @@
 <div class="card"
-     *ngIf="vehicle$ | async as vehicle">
+     *ngIf="vehicle() as vehicle">
   <div class="card-header">
-    {{pageTitle$ | async}}
+    {{pageTitle()}}
   </div>
 
   <div class="card-body">
@@ -36,7 +36,7 @@
     </div>
 
     <div class="row"
-         *ngIf="vehicleFilms$ | async as films">
+         *ngIf="vehicleFilms() as films">
       <div class="col-md-3">Films:</div>
       <div class="col-md-6">
         <ul class="list-group">

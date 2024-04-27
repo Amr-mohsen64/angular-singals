@@ -1,5 +1,5 @@
 <div class="card border-primary"
-     *ngIf='item$ | async as item'>
+     *ngIf='cartItem() as item'>
 
   <div class='card-header text-primary'>
     <div class="row">
@@ -34,14 +34,14 @@
                 (change)="onQuantitySelected($any($event.target).value)">
           <option disabled
                   value="">--Select a quantity--</option>
-          <option *ngFor="let q of qtyArr">{{ q }}</option>
+          <option *ngFor="let q of qtyArr()">{{ q }}</option>
         </select>
       </div>
     </div>
 
     <div class="row">
       <div class="col-md-4">Cost:</div>
-      <div class="col-md-6">{{exPrice$ | async | number:'1.2-2'}}</div>
+      <div class="col-md-6">{{exPrice()  | number:'1.2-2'}}</div>
     </div>
   </div>
 </div>
