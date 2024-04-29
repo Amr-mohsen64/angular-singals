@@ -47,7 +47,7 @@ export class VehicleService {
     filter(Boolean),
     switchMap((vehicle) =>
       forkJoin(vehicle.films.map((link) => this.http.get<Film>(link)))
-    )
+    ),
   );
 
   vehicleFilms = toSignal<Film[], Film[]>(this.vehicleFilms$, {
